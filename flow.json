@@ -7,6 +7,11 @@
         "info": ""
     },
     {
+        "id": "8ef40de364a9dda1",
+        "type": "twitter-credentials",
+        "screen_name": "GearFrames"
+    },
+    {
         "id": "713ac077.f264f",
         "type": "inject",
         "z": "4001f6ef.33ee78",
@@ -51,5 +56,40 @@
         "x": 410,
         "y": 220,
         "wires": []
+    },
+    {
+        "id": "b54783164ea3fdc0",
+        "type": "twitter out",
+        "z": "4001f6ef.33ee78",
+        "twitter": "8ef40de364a9dda1",
+        "name": "Tweet",
+        "x": 450,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "db447bbec4f07e14",
+        "type": "inject",
+        "z": "4001f6ef.33ee78",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Hello world welcome to my twitter application",
+        "payloadType": "str",
+        "x": 210,
+        "y": 140,
+        "wires": [
+            [
+                "b54783164ea3fdc0"
+            ]
+        ]
     }
 ]
