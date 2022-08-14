@@ -53,7 +53,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 410,
+        "x": 450,
         "y": 220,
         "wires": []
     },
@@ -63,7 +63,7 @@
         "z": "4001f6ef.33ee78",
         "twitter": "8ef40de364a9dda1",
         "name": "Tweet",
-        "x": 450,
+        "x": 430,
         "y": 140,
         "wires": []
     },
@@ -84,12 +84,186 @@
         "topic": "",
         "payload": "Hello world welcome to my twitter application",
         "payloadType": "str",
-        "x": 210,
+        "x": 230,
         "y": 140,
         "wires": [
             [
                 "b54783164ea3fdc0"
             ]
         ]
+    },
+    {
+        "id": "e61ed192e8e736ee",
+        "type": "file in",
+        "z": "4001f6ef.33ee78",
+        "name": "",
+        "filename": "/data/projects/Top-Gear-Frames/media/pic_(1441).jpg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 400,
+        "y": 320,
+        "wires": [
+            [
+                "c30ff460319c85bf"
+            ]
+        ]
+    },
+    {
+        "id": "92077f3370f86df0",
+        "type": "inject",
+        "z": "4001f6ef.33ee78",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Hello world welcome to my twitter application",
+        "payloadType": "str",
+        "x": 110,
+        "y": 320,
+        "wires": [
+            [
+                "e61ed192e8e736ee"
+            ]
+        ]
+    },
+    {
+        "id": "c30ff460319c85bf",
+        "type": "debug",
+        "z": "4001f6ef.33ee78",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "5c356ea3f8eaaf4f",
+        "type": "function",
+        "z": "4001f6ef.33ee78",
+        "name": "File Name",
+        "func": "let value = msg.payload.replace(/\\n|\\r/g, \"\")\n\n//Taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random\nfunction getRandomInt(min, max) {\n  min = Math.ceil(min);\n  max = Math.floor(max);\n  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive\n}\n\nvalueInt = getRandomInt(0,msg.payload)\nlet filename = `/data/projects/Top-Gear-Frames/media/pic_(${valueInt}).jpg`\n\nmsg.filename = filename\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 540,
+        "wires": [
+            [
+                "3350f2a8a8acf66f"
+            ]
+        ]
+    },
+    {
+        "id": "a84fa02de31f1136",
+        "type": "exec",
+        "z": "4001f6ef.33ee78",
+        "command": "cd /data/projects/Top-Gear-Frames/media && ls | wc -l",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Find Number of Objects",
+        "x": 390,
+        "y": 540,
+        "wires": [
+            [
+                "5c356ea3f8eaaf4f"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "58570dd8fe03eaca",
+        "type": "inject",
+        "z": "4001f6ef.33ee78",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "14400",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 540,
+        "wires": [
+            [
+                "a84fa02de31f1136"
+            ]
+        ]
+    },
+    {
+        "id": "3350f2a8a8acf66f",
+        "type": "file in",
+        "z": "4001f6ef.33ee78",
+        "name": "",
+        "filename": "",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 800,
+        "y": 540,
+        "wires": [
+            [
+                "680a39a63571e46f"
+            ]
+        ]
+    },
+    {
+        "id": "680a39a63571e46f",
+        "type": "function",
+        "z": "4001f6ef.33ee78",
+        "name": "Convert Payload to Media",
+        "func": "msg.media = msg.payload\n\nmsg.payload = \"\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 540,
+        "wires": [
+            [
+                "67d40a52202f7fd6"
+            ]
+        ]
+    },
+    {
+        "id": "67d40a52202f7fd6",
+        "type": "twitter out",
+        "z": "4001f6ef.33ee78",
+        "twitter": "8ef40de364a9dda1",
+        "name": "Tweet",
+        "x": 1230,
+        "y": 540,
+        "wires": []
     }
 ]
